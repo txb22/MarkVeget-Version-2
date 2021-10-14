@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import HomePage from "../pages/HomePage/HomePage";
 import ShoppingCart from "../pages/ShoppingCart/ShoppingCart";
+import CheckoutPage from "../pages/CheckoutPage/CheckoutPage";
 function Routes(){
     return(
         <Router>
@@ -15,6 +16,9 @@ function Routes(){
                 </Route>
                 <Route path="/cart" exact>
                     <ShoppingCart/>
+                </Route>
+                <Route path="/checkout" exact>
+                    <CheckoutPage/>
                 </Route>
             </Switch>
         </Router>
