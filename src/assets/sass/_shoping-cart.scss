@@ -5,7 +5,29 @@
   padding-top: 80px;
   padding-bottom: 80px;
 }
-
+.cart-empty{
+  .back-link{
+    text-align: center;
+    a{
+      text-decoration: none;
+      color: $primary-color;
+      font-size: 2rem;
+      &:hover{
+        color: #ccc;
+      }
+      i{
+        margin-right: 15px;
+      }
+    }
+    span{
+      font-size: 1.5rem;
+    }
+  }
+  .image-empty{
+    display: flex;
+    justify-content: center;
+  }
+}
 .shoping__cart__table {
   margin-bottom: 30px;
 
