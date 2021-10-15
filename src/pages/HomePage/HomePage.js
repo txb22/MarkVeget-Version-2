@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import MasterLayout from "../../layout/MasterLayout";
 import Banner from '../../assets/images/banner.jpg';
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Autoplay } from 'swiper';
-import { Link } from "react-router-dom";
-
+import {Swiper, SwiperSlide} from 'swiper/react';
+import SwiperCore, {Autoplay} from 'swiper';
+import {Link} from "react-router-dom";
 import 'swiper/swiper-bundle.min.css'
 import 'swiper/swiper.min.css'
-
+import {useGetAllProductsQuery} from "../../features/api/productAPI";
+import {addToCart} from "../../features/slice/cartSlice";
+import {useDispatch} from "react-redux";
 
 function HomePage() {
-    const [showCategory, setShowCategory] = useState(false)
-
+    const dispatch = useDispatch()
+    const {data, error, isLoading} = useGetAllProductsQuery()
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product))
+    }
+    window.scroll(0, 0)
+    const [showCategory, setShowCategory] = useState(true)
     SwiperCore.use([Autoplay]);
     return (
         <MasterLayout>
@@ -22,22 +27,24 @@ function HomePage() {
                         <div className="row">
                             <div className="col-lg-3">
                                 <div className="hero__categories">
-                                    <div className="hero__categories__all" onClick={() => { setShowCategory(!showCategory) }}>
-                                        <i className="fa fa-bars" />
+                                    <div className="hero__categories__all" onClick={() => {
+                                        setShowCategory(!showCategory)
+                                    }}>
+                                        <i className="fa fa-bars"/>
                                         <span>All departments</span>
                                     </div>
-                                    <ul style={{ display: showCategory ? '' : 'none' }}>
-                                        <li><Link to="#">Fresh Meat</Link></li>
-                                        <li><Link to="#">Vegetables</Link></li>
-                                        <li><Link to="#">Fruit &amp; Nut Gifts</Link></li>
-                                        <li><Link to="#">Fresh Berries</Link></li>
-                                        <li><Link to="#">Ocean Foods</Link></li>
-                                        <li><Link to="#">Butter &amp; Eggs</Link></li>
-                                        <li><Link to="#">Fastfood</Link></li>
-                                        <li><Link to="#">Fresh Onion</Link></li>
-                                        <li><Link to="#">Papayaya &amp; Crisps</Link></li>
-                                        <li><Link to="#">Oatmeal</Link></li>
-                                        <li><Link to="#">Fresh Bananas</Link></li>
+                                    <ul style={{display: showCategory ? '' : 'none'}}>
+                                        <li><Link to="/">Fresh Meat</Link></li>
+                                        <li><Link to="/">Vegetables</Link></li>
+                                        <li><Link to="/">Fruit &amp; Nut Gifts</Link></li>
+                                        <li><Link to="/">Fresh Berries</Link></li>
+                                        <li><Link to="/">Ocean Foods</Link></li>
+                                        <li><Link to="/">Butter &amp; Eggs</Link></li>
+                                        <li><Link to="/">Fastfood</Link></li>
+                                        <li><Link to="/">Fresh Onion</Link></li>
+                                        <li><Link to="/">Papayaya &amp; Crisps</Link></li>
+                                        <li><Link to="/">Oatmeal</Link></li>
+                                        <li><Link to="/">Fresh Bananas</Link></li>
                                     </ul>
                                 </div>
                             </div>
@@ -47,15 +54,15 @@ function HomePage() {
                                         <form action="#">
                                             <div className="hero__search__categories">
                                                 All Categories
-                                                <span className="arrow_carrot-down" />
+                                                <span className="arrow_carrot-down"/>
                                             </div>
-                                            <input type="text" placeholder="What do yo u need?" />
+                                            <input type="text" placeholder="What do yo u need?"/>
                                             <button type="submit" className="site-btn">SEARCH</button>
                                         </form>
                                     </div>
                                     <div className="hero__search__phone">
                                         <div className="hero__search__phone__icon">
-                                            <i className="fa fa-phone" />
+                                            <i className="fa fa-phone"/>
                                         </div>
                                         <div className="hero__search__phone__text">
                                             <h5>+65 11.188.888</h5>
@@ -63,72 +70,38 @@ function HomePage() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="hero__item set-bg" style={{ backgroundImage: `url(${Banner})` }}
+                                <div className="hero__item set-bg" style={{backgroundImage: `url(${Banner})`}}
                                 >
                                     <div className="hero__text">
                                         <span>FRUIT FRESH</span>
-                                        <h2>Vegetable <br />100% Organic</h2>
+                                        <h2>Vegetable <br/>100% Organic</h2>
                                         <p>Free Pickup and Delivery Available</p>
-                                        <a href="#" className="primary-btn">SHOP NOW</a>
+                                        <Link to="/" className="primary-btn">SHOP NOW</Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-                {/* Hero Section End */}
-                {/* Categories Section Begin */}
-                {/* <section className="categories">
-                <div className="container">
-                    <div className="row">
-                        <div className="categories__slider owl-carousel">
-                            <div className="col-lg-3">
-                                <div className="categories__item set-bg" data-setbg="img/categories/cat-1.jpg">
-                                    <h5><a href="#">Fresh Fruit</a></h5>
-                                </div>
+                <Swiper
+                    className="mySwiper"
+                    autoplay={{delay: 3000}}
+                >
+                    <SwiperSlide>
+                        <div className="">
+                            <div className="categories__item set-bg">
+                                <img src={require('../../assets/images/banner-1.jpg').default} alt="Banner"/>
+                                <h5><Link to="/">Fresh Fruit</Link></h5>
                             </div>
-                            <div className="col-lg-3">
-                                <div className="categories__item set-bg" data-setbg="img/categories/cat-2.jpg">
-                                    <h5><a href="#">Dried Fruit</a></h5>
-                                </div>
-                            </div>
-                            <div className="col-lg-3">
-                                <div className="categories__item set-bg" data-setbg="img/categories/cat-3.jpg">
-                                    <h5><a href="#">Vegetables</a></h5>
-                                </div>
-                            </div>
-                            <div className="col-lg-3">
-                                <div className="categories__item set-bg" data-setbg="img/categories/cat-4.jpg">
-                                    <h5><a href="#">drink fruits</a></h5>
-                                </div>
-                            </div>
-                            <div className="col-lg-3">
-                                <div className="categories__item set-bg" data-setbg="img/categories/cat-5.jpg">
-                                    <h5><a href="#">drink fruits</a></h5>
-                                </div>
-                            </div>
+                        </div>
+                    </SwiperSlide> <SwiperSlide>
+                    <div className="">
+                        <div className="categories__item set-bg">
+                            <img src={require('../../assets/images/banner-2.jpg').default} alt=""/>
+                            <h5><Link to="/">Fresh Fruit</Link></h5>
                         </div>
                     </div>
-                </div>
-            </section> */}
-
-                <Swiper className="mySwiper"
-
-                    autoplay={{
-                        delay: 3000,
-                        // disableOnInteraction: false
-                    }}>
-                    <SwiperSlide> <div className="">
-                        <div className="categories__item set-bg" >
-                            <img src={require('../../assets/images/banner-1.jpg').default} alt="" />
-                            <h5><a href="#">Fresh Fruit</a></h5>
-                        </div>
-                    </div></SwiperSlide> <SwiperSlide><div className="">
-                        <div className="categories__item set-bg" >
-                            <img src={require('../../assets/images/banner-2.jpg').default} alt="" />
-                            <h5><a href="#">Fresh Fruit</a></h5>
-                        </div>
-                    </div></SwiperSlide>
+                </SwiperSlide>
 
                 </Swiper>
 
@@ -151,142 +124,33 @@ function HomePage() {
                             </div>
                         </div>
                         <div className="row featured__filter">
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic set-bg">
-                                        <img src="https://picsum.photos/270/270" />
-                                        <ul className="featured__item__pic__hover">
-
-                                            <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart" /></a></li>
-                                        </ul>
+                            {data?.map((prd) => {
+                                return (
+                                    <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat" key={prd.id}>
+                                        <div className="featured__item">
+                                            <div className="featured__item__pic set-bg">
+                                                <img src="https://picsum.photos/270/270"/>
+                                                <ul className="featured__item__pic__hover">
+                                                    <li>
+                                                        <button><i className="fa fa-heart"/></button>
+                                                    </li>
+                                                    <li>
+                                                        <button><i className="fa fa-retweet"/></button>
+                                                    </li>
+                                                    <li>
+                                                        <button onClick={() => handleAddToCart(prd)}><i
+                                                            className="fa fa-shopping-cart"/></button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div className="featured__item__text">
+                                                <h6><Link to="/">{prd.name}</Link></h6>
+                                                <h5>${prd.price}</h5>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">Crab Pool Security</a></h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic set-bg" >
-                                        <img src="https://picsum.photos/270/270" />
-
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart" /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">Crab Pool Security</a></h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-3.jpg">
-                                        <img src="https://picsum.photos/270/270" />
-
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart" /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">Crab Pool Security</a></h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-4.jpg">
-                                        <img src="https://picsum.photos/270/270" />
-
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart" /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">Crab Pool Security</a></h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-5.jpg">
-                                        <img src="https://picsum.photos/270/270" />
-
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart" /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">Crab Pool Security</a></h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-6.jpg">
-                                        <img src="https://picsum.photos/270/270" />
-
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart" /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">Crab Pool Security</a></h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-7.jpg">
-                                        <img src="https://picsum.photos/270/270" />
-
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart" /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">Crab Pool Security</a></h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                                <div className="featured__item">
-                                    <div className="featured__item__pic set-bg" data-setbg="img/featured/feature-8.jpg">
-                                        <img src="https://picsum.photos/270/270" />
-
-                                        <ul className="featured__item__pic__hover">
-                                            <li><a href="#"><i className="fa fa-heart" /></a></li>
-                                            <li><a href="#"><i className="fa fa-retweet" /></a></li>
-                                            <li><a href="#"><i className="fa fa-shopping-cart" /></a></li>
-                                        </ul>
-                                    </div>
-                                    <div className="featured__item__text">
-                                        <h6><a href="#">Crab Pool Security</a></h6>
-                                        <h5>$30.00</h5>
-                                    </div>
-                                </div>
-                            </div>
+                                )
+                            })}
                         </div>
                     </div>
                 </section>
@@ -297,12 +161,12 @@ function HomePage() {
                         <div className="row">
                             <div className="col-lg-6 col-md-6 col-sm-6">
                                 <div className="banner__pic">
-                                    <img src={require('../../assets/images/banner-1.jpg').default} alt="" />
+                                    <img src={require('../../assets/images/banner-1.jpg').default} alt=""/>
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-6 col-sm-6">
                                 <div className="banner__pic">
-                                    <img src={require('../../assets/images/banner-2.jpg').default} alt="" />
+                                    <img src={require('../../assets/images/banner-2.jpg').default} alt=""/>
                                 </div>
                             </div>
                         </div>
@@ -320,7 +184,7 @@ function HomePage() {
                                         <div className="latest-prdouct__slider__item">
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -329,7 +193,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -338,7 +202,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -349,7 +213,7 @@ function HomePage() {
                                         <div className="latest-prdouct__slider__item">
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -358,7 +222,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -367,7 +231,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -385,7 +249,7 @@ function HomePage() {
                                         <div className="latest-prdouct__slider__item">
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -394,7 +258,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -403,7 +267,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -414,7 +278,7 @@ function HomePage() {
                                         <div className="latest-prdouct__slider__item">
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -423,7 +287,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -432,7 +296,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -450,7 +314,7 @@ function HomePage() {
                                         <div className="latest-prdouct__slider__item">
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -459,7 +323,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -468,7 +332,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -479,7 +343,7 @@ function HomePage() {
                                         <div className="latest-prdouct__slider__item">
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -488,7 +352,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -497,7 +361,7 @@ function HomePage() {
                                             </a>
                                             <a href="#" className="latest-product__item">
                                                 <div className="latest-product__item__pic">
-                                                    <img src="https://picsum.photos/270/270" />
+                                                    <img src="https://picsum.photos/270/270"/>
                                                 </div>
                                                 <div className="latest-product__item__text">
                                                     <h6>Crab Pool Security</h6>
@@ -526,54 +390,57 @@ function HomePage() {
                             <div className="col-lg-4 col-md-4 col-sm-6">
                                 <div className="blog__item">
                                     <div className="blog__item__pic">
-                                        <img src="https://picsum.photos/270/270" />
+                                        <img src="https://picsum.photos/270/270"/>
                                     </div>
                                     <div className="blog__item__text">
                                         <ul>
-                                            <li><i className="fa fa-calendar-o" /> May 4,2019</li>
-                                            <li><i className="fa fa-comment-o" /> 5</li>
+                                            <li><i className="fa fa-calendar-o"/> May 4,2019</li>
+                                            <li><i className="fa fa-comment-o"/> 5</li>
                                         </ul>
                                         <h5><a href="#">Cooking tips make cooking simple</a></h5>
-                                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                            quaerat </p>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-lg-4 col-md-4 col-sm-6">
                                 <div className="blog__item">
                                     <div className="blog__item__pic">
-                                        <img src="https://picsum.photos/270/270" />
+                                        <img src="https://picsum.photos/270/270"/>
                                     </div>
                                     <div className="blog__item__text">
                                         <ul>
-                                            <li><i className="fa fa-calendar-o" /> May 4,2019</li>
-                                            <li><i className="fa fa-comment-o" /> 5</li>
+                                            <li><i className="fa fa-calendar-o"/> May 4,2019</li>
+                                            <li><i className="fa fa-comment-o"/> 5</li>
                                         </ul>
                                         <h5><a href="#">6 ways to prepare breakfast for 30</a></h5>
-                                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                            quaerat </p>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-lg-4 col-md-4 col-sm-6">
                                 <div className="blog__item">
                                     <div className="blog__item__pic">
-                                        <img src="https://picsum.photos/270/270" />
+                                        <img src="https://picsum.photos/270/270"/>
                                     </div>
                                     <div className="blog__item__text">
                                         <ul>
-                                            <li><i className="fa fa-calendar-o" /> May 4,2019</li>
-                                            <li><i className="fa fa-comment-o" /> 5</li>
+                                            <li><i className="fa fa-calendar-o"/> May 4,2019</li>
+                                            <li><i className="fa fa-comment-o"/> 5</li>
                                         </ul>
                                         <h5><a href="#">Visit the clean farm in the US</a></h5>
-                                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                                        <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                                            quaerat </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-            </div >
-
-        </MasterLayout >
+            </div>
+        </MasterLayout>
     )
 }
+
 export default HomePage
