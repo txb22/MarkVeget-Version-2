@@ -1,14 +1,25 @@
-import React from "react";
+import React, {useEffect} from "react";
 import LOGO from '../../assets/images/logo.png'
 import Language from '../../assets/images/vn.png'
 import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {getTotals} from "../../features/slice/cartSlice";
 
 function Header() {
+    const dispatch = useDispatch()
+    const cart = useSelector((state) => state.cart)
+    useEffect(()=>{
+        dispatch(getTotals())
+    },[cart,dispatch])
+    const handleScroll =()=>{
+        window.scroll(0,0)
+    }
+    const {cartTotalQuantity,cartTotalAmount} = useSelector(state=>state.cart)
     return (
-        <div>
-            {/*<div id="preloder">*/}
-            {/*    <div className="loader"></div>*/}
-            {/*</div>*/}
+        <div className="sticky-top">
+            <button className="scroll" onClick={()=>handleScroll()}>
+                <i className="fa fa-angle-double-up" aria-hidden="true"/>
+            </button>
             <div className="humberger__menu__overlay"/>
             <div className="humberger__menu__wrapper">
                 <div className="humberger__menu__logo">
@@ -102,7 +113,7 @@ function Header() {
                         </div>
                     </div>
                 </div>
-                <div className="container">
+                <div className="header__main--logo container">
                     <div className="row">
                         <div className="col-lg-3">
                             <div className="header__logo">
@@ -131,9 +142,9 @@ function Header() {
                             <div className="header__cart">
                                 <ul>
                                     <li><Link to="/"><i className="fa fa-heart"/> <span>1</span></Link></li>
-                                    <li><Link to="/cart"><i className="fa fa-shopping-bag"/> <span>3</span></Link></li>
+                                    <li><Link to="/cart"><i className="fa fa-shopping-bag"/> <span>{cart.cartTotalQuantity}</span></Link></li>
                                 </ul>
-                                <div className="header__cart__price">item: <span>$150.00</span></div>
+                                <div className="header__cart__price">Item: <span>${cart.cartTotalAmount}</span></div>
                             </div>
                         </div>
                     </div>
