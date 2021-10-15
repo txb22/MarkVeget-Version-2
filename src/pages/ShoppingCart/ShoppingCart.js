@@ -46,7 +46,19 @@ function ShoppingCart() {
             <section className="shoping-cart spad">
                 <div className="container">
                     {cart.cartItems.length === 0
-                        ? (<div>Cart Emty</div>)
+                        ? (<div className="cart-empty">
+                            <div className="row back-link">
+                                <Link to="/"><i className="fa fa-arrow-left" aria-hidden="true"/>Continue shopping cart</Link>
+                            </div>
+                            <div className="row back-link">
+                                <span>Your Cart Empty</span>
+                            </div>
+                            <div className="row">
+                                <div className="col-lg-12 image-empty">
+                                    <img src={require('../../assets/images/empty-cart.png').default} alt=""/>
+                                </div>
+                            </div>
+                        </div>)
                         : (
                             <div>
                                 <div className="row">
