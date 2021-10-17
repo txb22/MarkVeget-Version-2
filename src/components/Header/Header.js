@@ -14,9 +14,8 @@ function Header() {
     const handleScroll =()=>{
         window.scroll(0,0)
     }
-    const {cartTotalQuantity,cartTotalAmount} = useSelector(state=>state.cart)
     return (
-        <div className="sticky-top">
+        <div className="">
             <button className="scroll" onClick={()=>handleScroll()}>
                 <i className="fa fa-angle-double-up" aria-hidden="true"/>
             </button>

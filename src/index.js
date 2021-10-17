@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import {configureStore} from "@reduxjs/toolkit";
 import {Provider} from "react-redux";
-import productReducer, {productsFetch} from "./features/slice/productSlice"
-import cartReducer, {getTotals} from "./features/slice/cartSlice"
+import productReducer from "./features/slice/productSlice"
+import cartReducer from "./features/slice/cartSlice"
 import {productsAPI} from "./features/api/productAPI";
 
 const store = configureStore({
@@ -18,7 +18,7 @@ const store = configureStore({
         getDefaultMiddleware().concat(productsAPI.middleware)
 
 })
-store.dispatch(productsFetch())
+// store.dispatch(productsFetch())
 // store.dispatch(getTotals())
 
 ReactDOM.render(

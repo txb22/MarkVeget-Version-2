@@ -3,13 +3,19 @@ import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {useGetAllProductsQuery} from "../../../features/api/productAPI";
 import {addToCart} from "../../../features/slice/cartSlice";
+import {Button, notification} from 'antd';
 
 function FeatureComponent(){
     const dispatch = useDispatch()
     const {data, error, isLoading} = useGetAllProductsQuery()
-    const handleAddToCart = (product) => {
+    const openNotificationWithIcon = (type,product) => {
         dispatch(addToCart(product))
-    }
+        notification[type]({
+            message: 'Đã thêm giỏ hàng',
+            description:
+                `Sản phẩm : ${product.name}`,
+        });
+    };
     return(
         <section className="featured spad">
             <div className="container">
@@ -44,14 +50,15 @@ function FeatureComponent(){
                                                 <button><i className="fa fa-retweet"/></button>
                                             </li>
                                             <li>
-                                                <button onClick={() => handleAddToCart(prd)}><i
-                                                    className="fa fa-shopping-cart"/></button>
+                                                <Button onClick={() => openNotificationWithIcon('success',prd)}>
+                                                    <i className="fa fa-shopping-cart"/>
+                                                </Button>
                                             </li>
                                         </ul>
                                     </div>
                                     <div className="featured__item__text">
                                         <h6><Link to="/">{prd.name}</Link></h6>
-                                        <h5>${prd.price}</h5>
+                                        <h5>{prd.price}₫</h5>
                                     </div>
                                 </div>
                             </div>

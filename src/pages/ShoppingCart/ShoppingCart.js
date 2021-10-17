@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import BGC from "../../assets/images/breadcrumb.jpg"
 import {useDispatch, useSelector} from "react-redux";
 import {clearCart, decreaseCart, getTotals, increaseCart, removeItemFromCart} from "../../features/slice/cartSlice";
+import {Button, notification} from 'antd';
 
 function ShoppingCart() {
     const dispatch = useDispatch()
@@ -17,9 +18,14 @@ function ShoppingCart() {
     const handleInc = (cartItem) => {
         dispatch(increaseCart(cartItem))
     }
-    const remove = (cartItem) => {
+    const openNotificationWithIcon = (type,cartItem) => {
         dispatch(removeItemFromCart(cartItem))
-    }
+        notification[type]({
+            message: 'Đã xóa',
+            description:
+                `Sản phẩm : ${cartItem.name}`,
+        });
+    };
     const clear = ()=>{
         dispatch(clearCart())
     }
@@ -67,10 +73,10 @@ function ShoppingCart() {
                                             <table>
                                                 <thead>
                                                 <tr>
-                                                    <th className="shoping__product">Products</th>
-                                                    <th>Price</th>
-                                                    <th>Quantity</th>
-                                                    <th>Total</th>
+                                                    <th className="shoping__product">Sản phẩm</th>
+                                                    <th>Giá</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Tổng</th>
                                                     <th/>
                                                 </tr>
                                                 </thead>
@@ -83,7 +89,7 @@ function ShoppingCart() {
                                                             <h5>{cartItem.name}</h5>
                                                         </td>
                                                         <td className="shoping__cart__price">
-                                                            ${cartItem.price}
+                                                            {cartItem.price}₫
                                                         </td>
                                                         <td className="shoping__cart__quantity">
                                                             <div className="quantity">
@@ -93,7 +99,8 @@ function ShoppingCart() {
                                                                 >-
                                                                 </button>
                                                                 <div className="pro-qty">
-                                                                    <input type="text" className="input" value={cartItem.cartQuantity}/>
+                                                                    {cartItem.cartQuantity}
+                                                                    {/*<input type="text" className="input" value={cartItem.cartQuantity}/>*/}
                                                                 </div>
                                                                 <button
                                                                     onClick={() => handleInc(cartItem)}
@@ -103,12 +110,12 @@ function ShoppingCart() {
                                                             </div>
                                                         </td>
                                                         <td className="shoping__cart__total">
-                                                            ${cartItem.price * cartItem.cartQuantity}
+                                                            {cartItem.price * cartItem.cartQuantity}₫
                                                         </td>
                                                         <td className="shoping__cart__item__close">
-                                                            <button onClick={() => remove(cartItem)}>
+                                                            <Button onClick={() => openNotificationWithIcon('error',cartItem)}>
                                                                 <i className="fa fa-window-close" aria-hidden="true"/>
-                                                            </button>
+                                                            </Button>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -122,35 +129,26 @@ function ShoppingCart() {
                                         <div className="shoping__cart__btns">
                                             <Link to="/" className="primary-btn">
                                                 <i className="fa fa-arrow-left" aria-hidden="true"/>
-                                                CONTINUE SHOPPING
+                                                Mua hàng ngay
                                             </Link>
                                             <button
                                                 onClick={()=>clear()}
                                                 className="primary-btn cart-btn cart-btn-right"
                                             >
-                                                Clear cart
+                                                Xóa giỏ hàng
                                             </button>
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
-                                        <div className="shoping__continue">
-                                            <div className="shoping__discount">
-                                                <h5>Discount Codes</h5>
-                                                <form action="#">
-                                                    <input type="text" placeholder="Enter your coupon code"/>
-                                                    <button type="submit" className="site-btn">APPLY COUPON</button>
-                                                </form>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div className="col-lg-6">
                                         <div className="shoping__checkout">
-                                            <h5>Cart Total</h5>
+                                            <h5>Giỏ Hàng</h5>
                                             <ul>
-                                                <li>Subtotal <span>${cart.cartTotalAmount}</span></li>
-                                                <li>Total <span>${cart.cartTotalAmount}</span></li>
+                                                <li>Tổng tiền hàng<span>{cart.cartTotalAmount}₫</span></li>
+                                                <li>Tổng tiền thanh toán <span>{cart.cartTotalAmount}₫</span></li>
                                             </ul>
-                                            <Link to="/checkout" className="primary-btn">PROCEED TO CHECKOUT</Link>
+                                            <Link to="/checkout" className="primary-btn">thanh toán ngay</Link>
                                         </div>
                                     </div>
                                 </div>
