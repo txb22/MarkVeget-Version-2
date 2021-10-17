@@ -73,7 +73,16 @@ h5 {
 h6 {
     font-size: 16px;
 }
-
+.btn-site{
+    font-size: 14px;
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 13px 30px 12px;
+    background: green;
+    border: none;
+}
 p {
     font-size: 16px;
     font-family: "Cairo", sans-serif;
